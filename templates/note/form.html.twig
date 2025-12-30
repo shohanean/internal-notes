@@ -1,0 +1,8 @@
+<h2>Note Form</h2>
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Save</button>
+{{ form_end(form) }}
+
+<a href="{{ path('note_index') }}">Back</a>

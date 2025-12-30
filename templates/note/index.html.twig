@@ -1,13 +1,11 @@
-<h2>Notes</h2>
+{% extends 'base.html.twig' %}
+{% block body %}
+<h2>
+Notes
+<a class="btn btn-sm btn-primary" href="{{ path('note_new') }}">Create Note</a>
+</h2>
 
-<h3><a href="{{ path('note_new') }}">Create Note</a></h3>
-
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
-<table>
+<table class="table table-bordered">
     <tr>
         <th>Sl. No.</th>
         <th>Title</th>
@@ -20,12 +18,13 @@ table, th, td {
             <td>{{ note.title }}</td>
             <td>{{ note.content }}</td>
             <td>
-                <a href="{{ path('note_edit', {id: note.id}) }}">Edit</a>
+                <a class="btn btn-sm btn-info" href="{{ path('note_edit', {id: note.id}) }}">Edit</a>
 
                 <form action="{{ path('note_delete', {id: note.id}) }}" method="post" style="display:inline">
-                    <button type="submit">Delete</button>
+                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
                 </form>
             </td>
         </tr>
     {% endfor %}
 </table>
+{% endblock %}

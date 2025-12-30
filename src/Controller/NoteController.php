@@ -21,8 +21,11 @@ class NoteController extends AbstractController
      */
     public function index(NoteRepository $noteRepository): Response
     {
+        $notes = $noteRepository->findBy([
+            'user' => $this->getUser()
+        ]);
         return $this->render('note/index.html.twig', [
-            'notes' => $noteRepository->findAll(),
+            'notes' => $notes,
         ]);
     }
 
@@ -37,6 +40,8 @@ class NoteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $note->setUser($this->getUser());
+
             $em->persist($note);
             $em->flush();
 
@@ -53,6 +58,9 @@ class NoteController extends AbstractController
      */
     public function edit(Note $note, Request $request, EntityManagerInterface $em): Response
     {
+        if ($note->getUser() !== null && $note->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
 
@@ -72,6 +80,9 @@ class NoteController extends AbstractController
      */
     public function delete(Note $note, EntityManagerInterface $em): Response
     {
+        if ($note->getUser() !== null && $note->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
         $em->remove($note);
         $em->flush();
 

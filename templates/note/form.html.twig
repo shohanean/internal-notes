@@ -1,8 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block body %}
 <h2>Note Form</h2>
 
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit">Save</button>
+    <button class="btn btn-success" type="submit">Save</button>
+    <a class="btn btn-secondary" href="{{ path('note_index') }}">Back</a>
 {{ form_end(form) }}
 
-<a href="{{ path('note_index') }}">Back</a>
+{% endblock %}
